@@ -10,7 +10,7 @@
       .btns
         v-btn(@click="pushForMe()") {{ $t('index.buttons.notificationTest') }}
         //v-btn.is-not-pwa(@click="download('/download/nuxTemp.apk','vuetifyTemplate.apk')") Download APK
-        v-btn(@click="a('https://github.com/jikantoki/nuxt3temp')") Github
+        v-btn(@click="a('https://github.com/jikantoki/nuxt4temp')") Github
         v-btn(@click="createPopup()") {{ $t('index.buttons.popup') }}
       .input-area
         v-text-field.my-4(
@@ -130,7 +130,7 @@ export default {
           message: this.notificationText,
           title: 'て～～～すと🤓',
           icon: 'https://nuxt.enoki.xyz/img/icon192.png',
-        },
+        }
       )
       this.dialogTitle = '通知を送信しました'
       this.dialogText = 'プッシュ通知を確認してみてください！'
