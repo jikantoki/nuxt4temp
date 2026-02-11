@@ -13,6 +13,7 @@
     "octref.vetur",
     "mosapride.zenkaku",
     "dbaeumer.vscode-eslint",
-    "editorconfig.editorconfig"
+    "editorconfig.editorconfig",
+    "pkief.material-icon-theme"
   ]
 }
