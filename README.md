@@ -4,100 +4,157 @@ Nuxt を簡単にインストールしてすぐ使うためのテンプレート
 
 - NOLICENSED ご自由にお使いください
 
+## このプロジェクトについて
+
+Nuxt4 をベースにした Web アプリ開発用テンプレートです。  
+フロントエンド（Nuxt4 + Vuetify3）とバックエンド（PHP + MySQL）の 2 サーバー構成になっており、  
+アカウント管理・WebPush 通知・Ajax 通信などの機能をあらかじめ実装しています。
+
+デプロイ先は Vercel を想定していますが、他の環境でも動作します。
+
 ## 前提
 
-Node.js と npm と yarn くらい入ってるよね！（投げやり）
-デプロイ先は Vercel を想定してるけど多分どこでも動きます
-あと PHP の composer も用意してね
+- Node.js（LTS 推奨）
+- yarn（パッケージマネージャー）
+- PHP + Composer（バックエンド機能を使う場合）
+- MySQL（データベース機能を使う場合）
 
-## INCLUDED
+## 含まれるライブラリ
 
-- Vue CLI Service
-- Vue3
-- Vuetify3
-- Vuetify ダークテーマ
-- Nuxt4
-- Vue-router
-- VSCode、Git、Eslint、Prettier 周りの設定ファイル
-- Pug と SASS
-- PWA Preset
-- Google Fonts
-- Vue Content Loader
+| ライブラリ                       | 用途                               |
+| -------------------------------- | ---------------------------------- |
+| Nuxt 4                           | フレームワーク本体                 |
+| Vue 3                            | UI フレームワーク                  |
+| Vuetify 3                        | UI コンポーネント（ダークテーマ対応） |
+| Vue Router                       | ルーティング                       |
+| Pinia                            | 状態管理                           |
+| pinia-plugin-persistedstate      | Pinia の状態永続化                 |
+| vue-i18n                         | 多言語対応（日本語・英語）         |
+| Pug                              | HTML テンプレートエンジン          |
+| SASS                             | CSS プリプロセッサ                 |
+| Google Fonts（Zen Maru Gothic）  | フォント                           |
+| Material Design Icons（@mdi/font）| アイコン                          |
+| Vue Content Loader               | スケルトンローディング             |
+| VSCode / Git / Prettier 設定ファイル | 開発環境設定                  |
 
 ## 独自実装
 
-- Cookie API
-- Ajax API
-- 画面を右スワイプでメニュー表示
-- イイカンジにカスタマイズされた SCSS ファイル
-- コピペで使える pug テンプレート
-- 汎用性の高い関数群
-- ダークテーマ切り替えボタン
-- Push API（使いやすいように改良）
-- Notification API（使いやすいように改良）
-- アカウント登録時のメールアドレス認証、アクセストークンの発行
-- MySQL 用 API
-
-## 制作予定
-
-- リッチエディタ
+- Ajax 通信用 API（`/app/js/ajaxFunctions.js`）
+- WebPush 通知（Push API・Notification API を使いやすいようにラップ）
+- アカウント登録・ログイン・パスワードリセット・メールアドレス認証
+- アクセストークン発行による API 認証
+- MySQL 操作用 PHP API
+- SCSS カスタマイズ済みスタイル（レスポンシブ対応）
+- Pinia によるユーザー状態管理
+- ダークテーマ切り替え
+- PWA 対応（manifest.json）
 
 ## 注意
 
-ポート 12345 で動くようにしてあります  
-VSCode での利用を推奨
+- 開発サーバーはポート **12345** で起動します
+- VSCode での利用を推奨します
 
-~~Vue3 慣れてなくて Options API 使ってるけど許して~~
+## ファイル構成
 
-## 参考資料
+```
+nuxt4temp/
+├── app/                         # Nuxt4 アプリケーション本体
+│   ├── assets/                  # 画像・SCSS などの静的ファイル
+│   │   └── main.scss            # グローバルスタイル
+│   ├── components/              # Vue コンポーネント
+│   │   └── common/              # 共通コンポーネント（ヘッダー、フッター等）
+│   ├── composables/             # Composable（状態管理含む）
+│   │   └── states.ts            # Pinia ストア定義
+│   ├── items/                   # 設定リスト等
+│   │   └── itemNavigationList.js # ナビゲーション項目
+│   ├── js/                      # ユーティリティ関数群
+│   │   ├── Functions.js         # 汎用関数
+│   │   ├── ajaxFunctions.js     # Ajax 通信
+│   │   ├── metaFunctions.js     # メタ情報操作
+│   │   ├── setup.js             # 初期化処理
+│   │   └── webpush.js           # WebPush 通知
+│   ├── layouts/
+│   │   └── default.vue          # 共通レイアウト（フォント設定含む）
+│   ├── locales/                 # 多言語ファイル
+│   │   ├── ja.js                # 日本語
+│   │   └── en.js                # 英語
+│   ├── mixins/                  # Vue ミックスイン
+│   ├── pages/                   # ページコンポーネント
+│   │   ├── index.vue            # トップページ
+│   │   ├── login.vue            # ログイン
+│   │   ├── registar.vue         # アカウント登録
+│   │   ├── password_reset.vue   # パスワードリセット
+│   │   ├── [userId].vue         # ユーザープロフィール
+│   │   ├── about.vue            # About ページ
+│   │   ├── rule.vue             # 利用規約
+│   │   └── vuetify.vue          # Vuetify コンポーネント一覧
+│   ├── plugins/                 # Nuxt プラグイン
+│   └── error.vue                # 404・エラーページ
+├── php/                         # PHP バックエンド
+│   ├── functions/               # PHP 共通関数
+│   ├── makeApiForAdmin.php      # API トークン初回発行
+│   ├── createAccount.php        # アカウント作成
+│   ├── loginAccount.php         # ログイン
+│   ├── authAccount.php          # 認証
+│   ├── resetPassword.php        # パスワードリセット
+│   ├── sendPushForAccount.php   # WebPush 送信
+│   └── ...                      # その他 API エンドポイント
+├── public/                      # 公開静的ファイル（favicon 等）
+├── database.sql                 # MySQL テーブル定義
+├── database_VIEW.sql            # MySQL ビュー定義
+├── nuxt.config.ts               # Nuxt 設定ファイル
+└── package.json                 # 依存パッケージ定義
+```
 
-WebPush <https://tech.excite.co.jp/entry/2021/06/30/104213>
+## セットアップ
 
-## Setup
+このプログラムは、**フロントエンドサーバー**と**バックエンド（PHP）サーバー**の 2 つが必要です。
 
-このプログラムは、表示用サーバーと処理用サーバーの 2 つが必要です
-
-### 表示用サーバー
+### 1. リポジトリのクローン
 
 ```shell
 git clone git@github.com:jikantoki/nuxt4temp.git
-echo 'これだけでセットアップ完了！'
-echo 'Vercelとかでデプロイしたらそのまま動く'
+cd nuxt4temp
 ```
 
-### WebPush 用の鍵を作成
+### 2. 依存パッケージのインストール
 
-ここで作れます <https://web-push-codelab.glitch.me/>
+```shell
+yarn install
+composer install  # PHP バックエンドを使う場合
+```
 
-#### ストレージを操作できる環境の場合
+### 3. 環境変数の設定
 
-ルートに.env ファイルを作成し、以下のように記述（クォーテーション不要）
+#### ローカル環境の場合
+
+ルートに `.env` ファイルを作成し、以下のように記述（クォーテーション不要）
 
 ```env
-VUE_APP_WEBPUSH_PUBLICKEY=パブリックキーをコピー
-VUE_APP_WEBPUSH_PRIVATEKEY=プライベートキーをコピー
+VUE_APP_WEBPUSH_PUBLICKEY=パブリックキー
+VUE_APP_WEBPUSH_PRIVATEKEY=プライベートキー
 
 VUE_APP_API_ID=default
-VUE_APP_API_TOKEN=後のPHPで作成するアクセストークン
-VUE_APP_API_ACCESSKEY=後のPHPで作成するアクセスキー
+VUE_APP_API_TOKEN=PHPで発行するアクセストークン
+VUE_APP_API_ACCESSKEY=PHPで発行するアクセスキー
 
 VUE_APP_API_HOST=APIサーバーのホスト
 ```
 
-#### それ以外（Vercel デプロイ等）
+#### Vercel デプロイの場合
 
-Project Settings → Enviroment Variables を開く  
-上記.env ファイルと同じ感じで設定
+Project Settings → Environment Variables を開き、上記と同様の内容を設定してください。
 
-### PHP サーバー（内部処理用）
+### 4. WebPush 用の鍵を作成（WebPush を使う場合）
 
-サーバーサイドは PHP で開発しているため、一部処理を実行するには PHP サーバーの用意が必要です  
-とりあえずレンタルサーバーでも借りれば実行できます
+<https://web-push-codelab.glitch.me/> でパブリックキーとプライベートキーを生成し、  
+環境変数に設定してください。
 
-1. API 用のドメインをクライアント側（Vercel 等）とは別で用意する
-2. このリポジトリの php フォルダをドメインのルートにする（.htaccess 等で）
-3. （準備中！！！）に API 用のドメインを記述
-4. リポジトリルート直下に/env.php を用意し、以下の記述をする
+### 5. PHP サーバーのセットアップ（バックエンドを使う場合）
+
+1. API 用のドメインをフロントエンド（Vercel 等）とは別に用意する
+2. `php/` フォルダをドメインのルートに配置する（`.htaccess` 等で設定）
+3. リポジトリルート直下に `env.php` を作成し、以下の内容を記述する
 
 ```php
 <?php
@@ -106,7 +163,7 @@ define('DIRECTORY_NAME', '/プロジェクトルートのディレクトリ名')
 define('VUE_APP_WebPush_PublicKey', 'パブリックキー');
 define('VUE_APP_WebPush_PrivateKey', 'プライベートキー');
 define('WebPush_URL', 'プッシュ通知を使うドメイン');
-define('WebPush_URL_dev', 'プッシュ通知を使うドメイン（開発用）');//この行は無くても良い
+define('WebPush_URL_dev', 'プッシュ通知を使うドメイン（開発用）'); // この行は省略可
 define('WebPush_icon', 'プッシュ通知がスマホに届いたときに表示するアイコンURL');
 define('Default_user_icon', 'アイコン未設定アカウント用の初期アイコンURL');
 
@@ -120,16 +177,13 @@ define('SMTP_Username', 'SMTPユーザー名');
 define('SMTP_Mailaddress', '送信に使うメールアドレス');
 define('SMTP_Password', 'SMTPパスワード');
 define('SMTP_Server', 'SMTPサーバー');
-define('SMTP_Port', 587); //基本は587を使えば大丈夫
-
+define('SMTP_Port', 587); // 基本は587を使えば大丈夫
 ```
 
-#### PHP サーバー用の.htaccess の用意
-
-大体こんな感じで設定する
+#### PHP サーバー用の `.htaccess` の例
 
 ```htaccess
-#トップページを/nuxt4temp/php にする
+# トップページを /nuxt4temp/php にする
 <IfModule mod_rewrite.c>
 RewriteEngine on
 RewriteBase /
@@ -138,138 +192,85 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.+)$ nuxt4temp/php/$1 [L]
 </IfModule>
-# 外部からのAPIへのアクセスを許可
+# 外部からの API へのアクセスを許可
 Header append Access-Control-Allow-Origin: "*"
-
 ```
 
-### MySQL の用意
+### 6. MySQL のセットアップ
 
-#### /database.sql ファイルをインポートする
+#### `database.sql` をインポートする
 
-PHPMyAdmin が使える環境なら DB 直下にインポートして終わり、コマンドラインでやる方法は知らん
+phpMyAdmin を使える環境なら、データベース直下にインポートして完了です。
 
 #### ※インポートでエラーが出たら
 
-/database_VIEW.sql の中身をコピーして phpmyadmin で直接実行
+`database_VIEW.sql` の中身をコピーして phpMyAdmin で直接実行してください。
 
-### デフォルト API のトークンを用意する
+### 7. デフォルト API トークンの発行
 
-このプログラムは独自のアクセストークンを利用して API にアクセスします。  
-そのため、初回 API を登録する作業が必要です。
+このプログラムは独自のアクセストークンを利用して API にアクセスします。初回のみ以下の手順が必要です。
 
-1. セットアップした API 用サーバーの/makeApiForAdmin.php にアクセス
-2. 初回アクセス時のみ MySQL で登録作業が行われるので、出てきた画面の内容をコピー
-3. .env にｲｲｶﾝｼﾞに内容を記述（書き方はさっき説明した）
+1. セットアップした API サーバーの `/makeApiForAdmin.php` にアクセス
+2. 初回アクセス時のみ MySQL に登録処理が行われるので、表示された内容をコピー
+3. `.env` に内容を記述（書き方は上記参照）
 4. 以後、その値を使って API を操作できます
 
-**忘れたらリセット**するしかないので注意！（一部データは暗号化されており、管理者でも確認できません）
+> **注意**: トークンを紛失した場合はリセットするしかありません（一部データは暗号化されており管理者でも確認不可）
 
 #### デフォルト API トークンのリセット方法
 
-1. MySQL の api_list テーブルの secretId='default'を削除
-2. api_listForView の secretId='default'も同様に削除
-3. 初回登録と同じ感じでやる
-4. データベースに再度 default が追加されていることを確認
+1. MySQL の `api_list` テーブルの `secretId='default'` を削除
+2. `api_listForView` の `secretId='default'` も同様に削除
+3. 初回登録と同じ手順で再発行する
 
-## コンソール側で初期化
-
-```shell
-yarn install
-composer install #PHP用
-```
-
-### 実行
+## 開発サーバーの起動
 
 ```shell
-yarn run dev
+yarn dev
 ```
 
-### 設定方法
+開発サーバーが `http://localhost:12345` で起動します。
 
-| 項目           | 設定箇所                     |
-| -------------- | ---------------------------- |
-| アプリ名       | /package.json                |
-| フォント       | /layout/default.vue          |
-| ナビゲーション | /items/itemNavigationList.js |
-| 404 ページ     | /error.vue                   |
-
-### Compiles and minifies for production
+## ビルド（本番用）
 
 ```shell
 yarn build
 ```
 
-### Lints and fixes files
+## プレビュー（ビルド結果の確認）
 
 ```shell
-yarn lint
+yarn preview
 ```
 
-### Customize configuration
+## 設定のカスタマイズ
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+| 項目           | 設定箇所                            |
+| -------------- | ----------------------------------- |
+| アプリ名       | `/package.json`                     |
+| フォント       | `/app/layouts/default.vue`          |
+| ナビゲーション | `/app/items/itemNavigationList.js`  |
+| 404 ページ     | `/app/error.vue`                    |
+| Nuxt 設定      | `/nuxt.config.ts`                   |
+
+詳しい Nuxt の設定方法は [Nuxt ドキュメント](https://nuxt.com/docs/getting-started/introduction) を参照してください。
 
 ## トラブルシューティング
 
 ### PHP がおかしい
 
-composer ちゃんと入れた？
+Composer が正しくインストールされているか確認してください。
 
-## Nuxt Minimal Starter
-
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+```shell
+composer install
 ```
 
-## Production
+### yarn install でエラーが出る
 
-Build the application for production:
+Node.js のバージョンを確認してください（LTS 推奨）。
 
-```bash
-# npm
-npm run build
+## 参考資料
 
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- WebPush 実装参考: <https://tech.excite.co.jp/entry/2021/06/30/104213>
+- Nuxt ドキュメント: <https://nuxt.com/docs/getting-started/introduction>
+- Vuetify ドキュメント: <https://vuetifyjs.com/>
